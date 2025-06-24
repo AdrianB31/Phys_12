@@ -2,7 +2,7 @@ body {
     font: 20px "Gill Sans", Verdana, sans-serif;
     line-height: 1.8;
     color: #000000;
-    background-color: #dcdcdc;
+    background-color: #23a11f;
     padding-top: 0px !important;
   }
 
@@ -23,8 +23,8 @@ a {
 }
 
 nav {
-  background-color: #dcdcdc;
-  color: #EEE7E8;
+  background-color: #23a11f;
+  color: #23a11f;
   padding: 50px 0px;
 }
 
@@ -89,7 +89,7 @@ nav {
 }
 
 code {
-  background-color: #2d2b33;
+  background-color: #23a11f;
   color: #EEE7E8;
   font-family: 'Courier New', Courier, monospace;
 }
