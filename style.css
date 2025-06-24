@@ -23,8 +23,8 @@ a {
 }
 
 nav {
-  background-color: #23a11f;
-  color: #23a11f;
+  background-color: #fc051e;
+  color: #fc051e;
   padding: 50px 0px;
 }
 
@@ -45,7 +45,7 @@ nav {
   border-radius: 20px;
   padding: 10px 30px;
   background-color: #a3a3a3;
-  color: #EEE7E8;
+  color: #23a11f;
   transition: 0.3s;
 }
 
@@ -90,7 +90,7 @@ nav {
 
 code {
   background-color: #23a11f;
-  color: #EEE7E8;
+  color: #23a11f;
   font-family: 'Courier New', Courier, monospace;
 }
 
