@@ -1,8 +1,8 @@
 body {
-    font: 20px "Gill Sans", Verdana, sans-serif;
+    font: 40px, Georgia, serif;
     line-height: 1.8;
     color: #000000;
-    background-color: #23a11f;
+    background-color: #fcfafa;
     padding-top: 0px !important;
   }
 
@@ -23,8 +23,8 @@ a {
 }
 
 nav {
-  background-color: #fc051e;
-  color: #fc051e;
+  background-color: #fcfafa;
+  color: #fcfafa;
   padding: 50px 0px;
 }
 
@@ -45,7 +45,7 @@ nav {
   border-radius: 20px;
   padding: 10px 30px;
   background-color: #a3a3a3;
-  color: #23a11f;
+  color: #fcfafa;
   transition: 0.3s;
 }
 
@@ -53,7 +53,7 @@ nav {
   border: 3px outset #FFFFFF;
   border-radius: 20px;
   padding: 10px 30px;
-  background-color: #a3a3a3;
+  background-color: #000000;
   transition: 0.3s;
 }
 
@@ -61,7 +61,7 @@ nav {
   border: 3px outset #FFFFFF;
   border-radius: 40px;
   padding: 10px 30px;
-  background-color: #a3a3a3;
+  background-color: #fcfafa;
   color: #000000;
   transition: 0.3s;
 }
@@ -89,8 +89,8 @@ nav {
 }
 
 code {
-  background-color: #23a11f;
-  color: #23a11f;
+  background-color: #fcfafa;
+  color: #fcfafa;
   font-family: 'Courier New', Courier, monospace;
 }
 
