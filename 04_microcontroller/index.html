@@ -47,7 +47,11 @@ Along with a video of the test display.
 <source src="displaytest.mp4" type="video/mp4" size="200">
 </video> 
 
-
+<br></br>
+Below is an image of the final display setting with minor customization that includes my name. 
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./finaldisplay.jpeg" alt="Display" width="800">
 <br></br>
 Here is the labeled code that I used to intergrate the BMP 280 with the OLED.
 <pre><code class="language-arduino">
@@ -68,8 +72,8 @@ Adafruit_BMP280 bmp;
 void setup() {
   Serial.begin(115200);
 
-  //Initialize I2C Display with specific SDA (22) and SCL (21) pins
-  Wire.begin(22, 21);
+  //Initialize I2C Display with specific SDA (21) and SCL (22) pins
+  Wire.begin(21, 22);
 
   //Initialize OLED Display
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3c)){
@@ -120,9 +124,17 @@ void loop() {
 }
 }
 </code></pre> 
+
+<br></br>
+Below is a diagram of how I set up the circuit to function. The steps include: (1) Connceting the ESP32 Dev board to the breadboard via USB-Type C wire from my laptop, as well as connecting the OLED and BMP280 to the breadboard; (2) Wiring the 3.3 V, Ground pins, and SCL/SDA pins from the ESP32 Dev board to the OLED display; (3) Connecting the BMP280 Voltage, Ground, and SCL/SDA pins to the OLED display in order to integrate both components; and (4) Write the code that integrates the both components from a software standpoint. 
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./diagram.jpeg" alt="Circuit Diagram" width="800">
+<br></br>
 </div>
 </xmp>
 </body>
+
 
 <script src="../strapdown.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
