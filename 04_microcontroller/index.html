@@ -27,10 +27,10 @@
 
 <h4>Temperature and Pressure Sensor Displayed on OLED</h4>
 
-Since the final project is gradually approaching, I decided to slowly begin dedicated the weekly assignments toward the theme of my preferred final project—the biological incubcator. As a result, I created an essential component to incubator which is the temperature, pressure, and humidity sensor. However, since the lab only had the BMP 280, and not the BME 280, only the temperature and pressure were able to be read. Furthermore, I portrayed the results on an OLED display since this is standard on medical devices. 
+Since the final project is gradually approaching, I decided to slowly begin dedicated the weekly assignments toward the theme of my preferred final project—the biological incubcator. As a result, I created an essential component to incubator which is the temperature, pressure, and humidity sensor. However, since the lab only had the BMP 280, and not the BME 280, only the temperature and pressure were able to be read. Furthermore, I portrayed the results on an OLED display since this is standard on medical devices for data to be displayed on readily available monitors. 
 <br></br>
 
-After installing the BMP 280 and downloading several libraries, I ran a sensor test to confirm whether or not the BMP 280 was installed properly. Below are the results of the test code which show a temperature that is connected to 
+After installing the BMP 280 and downloading several libraries, I ran a sensor test to confirm whether or not the BMP 280 was installed properly. Below are the results of the test code which show a temperature that is connected to an external database. 
 <br></br>
 <p class="margin">   </p>
     <div class="center-colum">
@@ -53,7 +53,7 @@ Below is an image of the final display setting with minor customization that inc
     <div class="center-colum">
       <img src="./finaldisplay.jpeg" alt="Display" width="800">
 <br></br>
-Here is the labeled code that I used to intergrate the BMP 280 with the OLED.
+Here is the labeled code that I used to intergrate the BMP 280 with the OLED. The "<"">" were taken out from the #include portion due to HTML mistaking it for a function and hiding the library text.
 <pre><code class="language-arduino">
 #include Wire.h
 #include Adafruit_GFX.h
