@@ -27,7 +27,7 @@
 
 <h4>Temperature and Pressure Sensor Displayed on OLED</h4>
 
-Since the final project is gradually approaching, I decided to slowly begin dedicated the weekly assignments toward the theme of my preferred final project—the biological incubcator. As a result, I created an essential component to incubator which is the temperature, pressure, and humidity sensor. However, since the lab only had the BMP 280, and not the BME 280, only the temperature and pressure were able to be read. Furthermore, I portrayed the results on an OLED display since this is standard on medical devices for data to be displayed on readily available monitors. 
+Since the final project is gradually approaching, I decided to slowly begin dedicated the weekly assignments toward the theme of my preferred final project—the biological incubcator. As a result, I created an essential component to incubator which is the temperature, pressure, and humidity sensor. However, since the lab only had the BMP 280, and not the BME 280, only the temperature and pressure were able to be read. Furthermore, I portrayed the results on an OLED display since this is standard on medical devices for data to be readily available. 
 <br></br>
 
 After installing the BMP 280 and downloading several libraries, I ran a sensor test to confirm whether or not the BMP 280 was installed properly. Below are the results of the test code on the serial monitor, which show a temperature that is connected to an external database. 
@@ -36,19 +36,19 @@ After installing the BMP 280 and downloading several libraries, I ran a sensor t
     <div class="center-colum">
       <img src="./temp.jpeg" alt="Temp Test" width="800">
 <br></br>
-Below is an image of my circuit setup when testing the example code. 
+Below is an image of my circuit setup when testing the example code for the OLED display. 
 <p class="margin">   </p>
     <div class="center-colum">
       <img src="./circuit.jpeg" alt="Circuit Test" width="800">
 
 <br></br>
-Along with a video of the test display.
+Along with a video of the test code functioning on the OLED.
 <video controls>
 <source src="displaytest.mp4" type="video/mp4" size="200">
 </video> 
 
 <br></br>
-Below is an image of the final display setting with minor customization that includes my name. 
+Below is an image of the final display setting with minor customization that includes my name. The display includes my name, the temperature measured in celsius, and the pressure measured in hectopascals. 
 <p class="margin">   </p>
     <div class="center-colum">
       <img src="./display.jpeg" alt="Display" width="800">
@@ -131,6 +131,7 @@ Below is a diagram of how I set up the circuit to function. The steps include: (
     <div class="center-colum">
       <img src="./diagram.jpeg" alt="Circuit Diagram" width="800">
 <br></br>
+Moving forward, in order to further improve the sensor capabilities, I would incorporate a DHT11 sensor into the circuit to measure the temperature and humidity in real-time—which is essential for data collectioin in a biological incubator. Additionally, I would omit the delay function of 2 miliseconds and substitute it with the millis function. The millis function utilizes position, interval, and increment commands to cause a delay within the microcontroller without completely shutting it down.
 </div>
 </xmp>
 </body>
