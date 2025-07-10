@@ -47,6 +47,79 @@ Along with a video of the test display.
 <source src="displaytest.mp4" type="video/mp4" size="200">
 </video> 
 
+
+<br></br>
+Here is the labeled code that I used to intergrate the BMP 280 with the OLED.
+<pre><code class="language-arduino">
+#include Wire.h
+#include Adafruit_GFX.h
+#include Adafruit_SSD1306.h
+#include Adafruit_Sensor.h
+#include Adafruit_BMP280.h
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+
+//Initialize the display and sensor
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+Adafruit_BMP280 bmp;
+
+void setup() {
+  Serial.begin(115200);
+
+  //Initialize I2C Display with specific SDA (22) and SCL (21) pins
+  Wire.begin(22, 21);
+
+  //Initialize OLED Display
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3c)){
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+
+  //Initialize BMP280 sensor
+  if(!bmp.begin(0x76)){ //Try 0x77 if not 0x76
+    Serial.println(F("Could not find a valid BMP280 sensor, check wiring"));
+    while(1);
+  }
+  //Clear display buffer
+  display.clearDisplay();
+  display.display();
+}
+
+void loop() {
+  // Read sensor data
+  float temperature = bmp.readTemperature();
+  float pressure = bmp.readPressure() / 100.0F;
+
+  //Clear display buffer
+  display.clearDisplay();
+  
+  //Header text size
+  display.setTextSize(2);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(20, 0);
+  display.println("Adrian Baginski");
+  
+  //Text size for Temp display
+  display.setTextSize(1);
+  display.setCursor(5, 20);
+  display.print("Temp: ");
+  display.print(temperature, 1);
+  display.println(" C");
+
+  //Text size for Pressure display
+  display.setCursor(5, 40);
+  display.print("Pressure: ");
+  display.print(pressure, 1);
+  display.println(" hPa");
+
+  display.display();
+
+  delay(2000);
+}
+}
+</code></pre> 
 </div>
 </xmp>
 </body>
