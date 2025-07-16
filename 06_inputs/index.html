@@ -27,6 +27,64 @@
 
 <h4>Assignment 1: Capactive Sensor<h4>
 
+<h5>For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took 3 baseline data points from objects and utilized the serial monitor function from arduino to measure the discrepencies. <h5>
+<br>
+<pre><code class="language-arduino">
+#include "max6675.h"
+#include Adafruit_GFX.h
+#include Adafruit_SSD1306.h
+#include Adafruit_Sensor.h
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+Adafruit_SSD1306 display(OLED_RESET);
+
+//Temperature Sensor
+int so = 17;
+int cs = 18;
+int sck = 19;
+float temp = 0;
+MAX6675 thermocouple (sck, cs, so); 
+
+void setup() {
+  Serial.begin(9600);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3c);
+  delay(2000);
+    display.clearDisplay();
+  display.setTextColor(WHITE);
+
+}
+
+void loop() {
+  temp = thermocouple.readCelsius();
+  delay(100);
+  Serial.println(temp);
+  //clear display
+  display.clearDisplay();
+  
+
+  //Header text size
+  display.setTextSize(2);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(10, 0);
+  display.println("Adrian B.");
+
+  //Temp text size
+  display.setTextSize(1);
+  display.setCursor(5, 20);
+  display.print("Temperature: ");
+  display.print(temp);
+  display.println(" C");
+
+  display.display();
+  
+  delay(2000);
+}
+</code></pre> 
+
+<br>
+
 <h4>Assignment 2: [Use + Calibrate Another Sensor]</h4>
 
 </div>
