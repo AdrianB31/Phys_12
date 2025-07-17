@@ -25,10 +25,16 @@
 
 <h3>Week 3.2: Electronic Inputs</h3>
 
-<h4>Assignment 1: Capactive Sensor<h4>
+<h4>Assignment 1: Capactive Sensor</h4>
 
-<h5>For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took 3 baseline data points from objects and utilized the serial monitor function from arduino to measure the discrepencies. <h5>
+For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took a measurement from room temperature to freezing and utilized the serial monitor function from arduino to measure the discrepencies. 
 <br>
+The experiment consisted of utlizing the metal bolt placed at the end of the thermistor to conduct temperatrue readings in order to plot it against a resistance reading. I was able to reference a formula from <a href="https://roberthart56.github.io/SCFAB/SC_lab/Sensors/Thermistor/thermistor_read.txt"> Robert Hart</a> and frankly I'm not sure if I inputed it correctly. However, it superficially appears to have worked. 
+
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./chart.jpeg" alt="Temperature vs. Resistance Diagram" width="1000">
+
 <pre><code class="language-arduino">
 #include "max6675.h"
 #include Adafruit_GFX.h
@@ -40,11 +46,16 @@
 #define OLED_RESET -1
 Adafruit_SSD1306 display(OLED_RESET);
 
-//Temperature Sensor
+//Temperature Sensor and Resistance Calculation
 int so = 17;
 int cs = 18;
 int sck = 19;
 float temp = 0;
+float R1 = 10000;
+float R2, T;
+float A = 3.354e-3;
+float B = 2.5698e-4;
+
 MAX6675 thermocouple (sck, cs, so); 
 
 void setup() {
@@ -58,8 +69,11 @@ void setup() {
 
 void loop() {
   temp = thermocouple.readCelsius();
+  R2 = R1 * 1/(4096.0 / (float)temp - 1.0);
+  T = (1.0 / (A + B*log(R2/R1)));
   delay(100);
   Serial.println(temp);
+  Serial.println(T);
   //clear display
   display.clearDisplay();
   
