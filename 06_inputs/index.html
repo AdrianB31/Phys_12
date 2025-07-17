@@ -25,7 +25,7 @@
 
 <h3>Week 3.2: Electronic Inputs</h3>
 
-<h4>Assignment 1: Capactive Sensor</h4>
+<h4>Assignment 1: Temperature Sensor</h4>
 
 For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took a measurement from room temperature to freezing and utilized the serial monitor function from arduino to measure the discrepencies. Below is a brief demo of my setup.
 <video controls>
@@ -107,8 +107,62 @@ void loop() {
 
 <br>
 
-<h4>Assignment 2: [Use + Calibrate Another Sensor]</h4>
+<h4>Assignment 2: Capactive Sensor</h4>
+I have been encountering several issues when trying to code a touch sensor using the copper tape. Although the circuitry is relatively simple, as shown below, I cannot seem to overcome an exit status 1 error in Arduino and suspect the issues lies within the library itself.
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./c.jpeg" alt="Temperature vs. Resistance Diagram" width="1000">
+<br>
+When trying to utilize the CapacitiveSensor library in Arduino, I keep on receiving a exit status 1 error that states that IO_REG_TYPE does not name a type. However, when I looked into the code of the library, IO_REG_TYPE is clearly defined and implement throughout the library code. I even uninstalled and reinstalled a previous version to see if the error is simply within the updated version. Unfortunately, even when reconfiguring the library code myself, I'm still encountering issues with CapacitiveSensor.h.
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./error.jpeg" alt="Temperature vs. Resistance Diagram" width="1000">
+<br>
+Here is the code that I used in order to calibrate the breadboard to the copper tape and led lights to create the touch sensor.
 
+<pre><code class="language-arduino">
+//Begin code
+#include CapacitiveSensor.h
+
+CapacitiveSensor capSensor = CapacitiveSensor(33, 25);
+
+//threshold for turning LED on
+int threshold = 1400;
+int threshold2 = 300; 
+
+//connect the LED pin
+const int ledPin = 26;
+const int ledPin2 = 27;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+}
+
+void loop() {
+  // read and store the value
+  long sensorValue = capSensor.capacitiveSensor(30);
+  Serial.println(sensorValue);
+
+  //value > threshold, then turn LED on
+  if (sensorValue > threshold){
+    digitalWrite(ledPin, HIGH);
+  }
+  //value < threshold
+  else{
+    digitalWrite(ledPin, LOW);
+  }
+  //value > threshold2, then turn LED on
+  if (sensorValue > threshold2){
+    digitalWrite(ledPin2, HIGH);
+  }  
+  else {
+    digitalWrite(ledPin2, LOW);
+  }
+  delay(10);
+}
+</code></pre> 
 </div>
 </xmp>
 </body>
