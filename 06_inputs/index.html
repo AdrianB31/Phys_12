@@ -27,14 +27,22 @@
 
 <h4>Assignment 1: Capactive Sensor</h4>
 
-For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took a measurement from room temperature to freezing and utilized the serial monitor function from arduino to measure the discrepencies. 
+For this assignment, I decided to expand upon my previous temperature sensor by incorporating a thermistor instead of the bmp280. The thermistor is able to read the temperature in real-time, providing more accurate data than the bmp280. Furthermore, I connected the thermistor to the OLED display in order to readily monitor and variations in the temperature. Afterwards, I took a measurement from room temperature to freezing and utilized the serial monitor function from arduino to measure the discrepencies. Below is a brief demo of my setup.
+<video controls>
+<source src="m.mp4" type="video/mp4" size="200">
+</video> 
+
 <br>
-The experiment consisted of utlizing the metal bolt placed at the end of the thermistor to conduct temperatrue readings in order to plot it against a resistance reading. I was able to reference a formula from <a href="https://roberthart56.github.io/SCFAB/SC_lab/Sensors/Thermistor/thermistor_read.txt"> Robert Hart</a> and frankly I'm not sure if I inputed it correctly. However, it superficially appears to have worked. 
+The experiment consisted of utlizing the metal bolt placed at the end of the thermistor to conduct temperatrue readings in order to plot it against a resistance reading. I was able to reference a formula from <a href="https://roberthart56.github.io/SCFAB/SC_lab/Sensors/Thermistor/thermistor_read.txt"> Robert Hart</a> and frankly I'm not sure if I inputed it correctly. However, it superficially appears to have worked. In order to control to min and max values, it depends on the setting by which the sensor is being read. For my particular setting, I was able to control the min value by placing the sensor in the freezer, understood that the temperature is below 0C, and knew that the sensor could not read into the negatives. On the other hand, to control the max values, I left the sensor out in room temperature and read the data after several minutes once the temperature was hovering ~21C. Therefore, my min value was 0C and my max value was ~21C
+<br>
+The graph below shows the results of my experiment, which plots the relationship between temperature and resistance. In addition, the x-axis is the temperature in celsius and the y-axis is the calculated resistance using 10K Ohms. As the chart shows, the inverse relationship is logarithmic whereby resistance increases as temperature decreases. 
 
 <p class="margin">   </p>
     <div class="center-colum">
       <img src="./chart.jpeg" alt="Temperature vs. Resistance Diagram" width="1000">
 
+<br>
+Here is the code that I used to integrate the thermistor sensor with the OLED display, along with deriving the resistance.
 <pre><code class="language-arduino">
 #include "max6675.h"
 #include Adafruit_GFX.h
