@@ -39,6 +39,8 @@ In order to incorporate the LED mechanism into the full-scale incubator, I would
       <img src="./2.jpeg" alt="Incubator" width="500">
       <img src="./3.jpeg" alt="Incubator" width="500">
       <img src="./4.jpeg" alt="Incubator" width="500">
+      <img src="./t.jpeg" alt="Incubator" width="500">
+<br>
 Here is the code for the thermistor component utilizing the millis function 
 <pre><code class="language-arduino">
 #include "max6675.h"
@@ -118,14 +120,9 @@ Here is the code for the LED strip utilizing the millis function
 
 CRGB led[numLed];
 
-bool currentColorRed = true;
-bool lastButtonState = HIGH;
-unsigned long lastDebounceTime = 0;
-unsigned long debounceDelay = 50;
-
 void setup(){
   Serial.begin(115200);
-  FastLED.addLeds< WS2812B, ledPin, GRB >(led, numLed);
+  FastLED.addLeds< WS2812B, ledPin, GRB> (led, numLed);
   FastLED.setBrightness(50);
 
   //Setting up button pin
@@ -150,7 +147,15 @@ void loop (){
 
 
 </code></pre> 
-I utilized the oscilloscope to measure the time domain that the LED strip is operating from. The LED was turned on to emit a solid red light, and appears that the LED is operating on a fixed clock. Futhermore, while the frequency appears to be undergoing PWN, the LED is undergoing several communication transactions between the ESP32 and each individual LED semiconductor bulb in the strip. As a result, the time difference (delta) is 1.22 microseconds at 4.10 volts. To measure the speed, I 
+I utilized the oscilloscope to measure the time domain that the LED strip is operating from. The LED was turned on to emit a solid red light, and appears that the LED is operating on a fixed clock. Futhermore, while the frequency appears to be undergoing PWN, the LED is undergoing several communication transactions between the ESP32 and each individual LED semiconductor bulb in the strip. As a result, the time difference (delta) is 1.22 microseconds at 4.10 volts. To measure the speed, I attached one prong of the oscilloscope to the 7K Ohm resistor on the LED and the other to ground. Thereafter, I used the formula speed = distance / time and plugged in the distance of the LED strip (10 inches or 0.254 meters). Moreover, I dervied 10 inches because the communication loop of the ESP32 needs to run in a continuous loop through the length of the LED strip for it to remain a solid color. Finally, I converted 1.22 microseconds to seconds which is 1.22e-6. 
+<br>
+<br>
+The speed is:
+s = d/t
+<br>
+s = 0.254m / 1.22e-6s
+<br>
+s = 208,196.72 m/s
 <p class="margin">   </p>
     <div class="center-colum">
       <img src="./o.jpeg" alt="Oscilloscope" width="1000">
