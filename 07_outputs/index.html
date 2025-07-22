@@ -29,6 +29,16 @@
 For the minimum viable product (MVP), I created a miniaturized version of the biological incubator. The MVP is comprised of a 3D printed vessel with door hinge, a thermistor, an OLED display, and LED strip. More specifically, the vessel is to showcase where the petri plates could be stored for incubation, the door hinge shows a crude method for isolating the specimens, the thermistor hole provides direct access to the interior of the vessel for real-time temperature readings, the OLED display provides readiability for data interpretation, and the LED strip provides the user knowledge of when the incubator is on or off to ensure safety from hazardous materials. 
 <br>
 <br>
+The MVP, shown below, is a crude portrayal of how the final product will function. As you can see, when the door is closed the LED strip shows a green color—which indicates that the incubator is safely incubating organisms. However, when the door is open, the LED strip switches to red to indicated that the door is open and should be closed promply. Furthermore, inside of the incubator is a cut out hole for the thermistor to function as a real-time temperature gauge. 
+<br>
+<br>
+In order to incorporate the LED mechanism into the full-scale incubator, I would install the button inside of the door such that the LED emits green when closed (applied pressure on button)and red when open (no pressure on button). In addition, the full-scale model will have a fan installed in the back of the incubator to disperse gas. On the other hand, I need to also install the heating element, which will consist of a heating pad (due to available material in the lab) installed underneath the floor of the incubator in a pocket that is ~1-2mm below. The pocket will provide 2 funcitons: (1) to allow space in the incubator for petri plates, and (2) to heat the incubator in a safe manner without direct contact to the petri plates inside. 
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./1.jpeg" alt="Incubator" width="500">
+      <img src="./2.jpeg" alt="Incubator" width="500">
+      <img src="./3.jpeg" alt="Incubator" width="500">
+      <img src="./4.jpeg" alt="Incubator" width="500">
 Here is the code for the thermistor component utilizing the millis function 
 <pre><code class="language-arduino">
 #include "max6675.h"
@@ -104,7 +114,7 @@ Here is the code for the LED strip utilizing the millis function
 
 #define numLed 10
 #define ledPin 16
-#define buttonPin 25
+#define buttonPin 17
 
 CRGB led[numLed];
 
@@ -115,7 +125,7 @@ unsigned long debounceDelay = 50;
 
 void setup(){
   Serial.begin(115200);
-  FastLED.addLeds<WS2812B, ledPin, GRB>(led, numLed);
+  FastLED.addLeds< WS2812B, ledPin, GRB >(led, numLed);
   FastLED.setBrightness(50);
 
   //Setting up button pin
@@ -128,31 +138,16 @@ void setup(){
 void loop (){
   //Read current button state
   int reading = digitalRead(buttonPin);
-
-  //If button state has changed, then reset debouncing timer
-  if(reading != lastButtonState){
-    lastDebounceTime = millis();
+  // Serial.println(reading);
+  if (reading == LOW){
+    fill_solid(led, numLed, CRGB:: Green);
   }
-  //If the debounce time has passed and button is pressed, plus if button state is different, then update last stable state
-  if((millis() - lastDebounceTime) > debounceDelay){
-    if(reading != lastButtonState){
-      lastButtonState = reading;
-
-      //Only act if button is pressed
-      if(lastButtonState == LOW){
-        currentColorRed = !currentColorRed;
-        if(currentColorRed){
-         fill_solid (led, numLed, CRGB::Red); 
-        } 
-        else{
-          fill_solid(led, numLed, CRGB:: Green);
-        }
-        FastLED.show();
-      }
-    }
+  else{
+    fill_solid (led, numLed, CRGB::Red); 
   }
-  lastButtonState = reading;
+  FastLED.show();
 }
+
 
 </code></pre> 
 I utilized the oscilloscope to measure the time domain that the LED strip is operating from. 
