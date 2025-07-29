@@ -112,7 +112,7 @@
         <a id="btn" href="files.zip" download>Download my files from this week!</a>
     </div>
     <p class="margin"> </p>
-    <h4>Assignment: [Program something with IOT]</h4>
+    <h4>Assignment: Controlling an LED Stip via WIFI</h4>
     <p>
       For this assignment, I chose to connect my LED strip via WIFI and Google Firebase. Unbeknownst to me, the most difficult aspect of this assignment was library management and debugging. In particular, the most pressing debugging issue that I encountered were changes in the API within the library. At first, I tried utilizing  <a href="https://github.com/mobizt/FirebaseClient ">Firebase Client</a> but would consistently receive a "does not name a type" error when compiling—which I discovered that it usually points to an issue with the library itself. Therefore, after reinstalling Firebase Client and still encountering the "does not name a type" error, I incorporated <a href=" https://github.com/mobizt/Firebase-ESP-Client ">Firebase_ESP_Client</a>. However, even after implementing Firebase_ESP_Client and making the library specific adjustments, I received a "no match for call to (String)()" error on several occasions. After reassigning the string declarations, the problem persisted such that I had to run a simple String test to ensure that my Arduino IDE was functioning correctly. Even when the test passed, the "no match for call to (String)()" error occured. However, I finally realized the issue lied when attemping to call jsonData.stringValue and jsonData.intValue with () since these are variables and not functions. 
       <br>
