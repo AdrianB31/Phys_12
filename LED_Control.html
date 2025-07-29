@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.2.3.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+		pre { font-size: 10pt; font-family: "Liberation Mono", monospace; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;LED Control Panel&lt;/title&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+    }
+    .control-group {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      display: inline-block;
+      min-width: 300px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input[type=&quot;color&quot;] {
+      width: 100px;
+      height: 50px;
+      border: none;
+      cursor: pointer;
+    }
+    input[type=&quot;range&quot;] {
+      width: 80%;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+    }
+    button.on { background-color: #4CAF50; } /* Green */
+    button.off { background-color: #f44336; } /* Red */
+    button.update { background-color: #008CBA; } /* Blue */
+    #status {
+        margin-top: 20px;
+        font-size: 1.1em;
+        color: #555;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;h1&gt;LED Control Panel&lt;/h1&gt;
+
+  &lt;div class=&quot;control-group&quot;&gt;
+    &lt;label for=&quot;colorPicker&quot;&gt;Select Color:&lt;/label&gt;
+    &lt;input type=&quot;color&quot; id=&quot;colorPicker&quot; value=&quot;#FFFFFF&quot;&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;control-group&quot;&gt;
+    &lt;label for=&quot;brightnessSlider&quot;&gt;Brightness:&lt;/label&gt;
+    &lt;input type=&quot;range&quot; id=&quot;brightnessSlider&quot; min=&quot;0&quot; max=&quot;255&quot; value=&quot;150&quot;&gt;
+    &lt;span id=&quot;brightnessValue&quot;&gt;150&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;control-group&quot;&gt;
+    &lt;button class=&quot;on&quot; onclick=&quot;setLedState('ON')&quot;&gt;Turn ON&lt;/button&gt;
+    &lt;button class=&quot;off&quot; onclick=&quot;setLedState('OFF')&quot;&gt;Turn OFF&lt;/button&gt;
+    &lt;button class=&quot;update&quot; onclick=&quot;updateLed()&quot;&gt;Update Color/Brightness&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div id=&quot;status&quot;&gt;Status: Not connected to Firebase&lt;/div&gt;
+
+  &lt;script src=&quot;https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const firebaseConfig = {
+      apiKey: &quot;AIzaSyAhMYfJDXjU6Pbhw2VnBz9hh5H205MGRF4&quot;, // Your FIREBASE_API_KEY
+      authDomain: &quot;led-connection-a5653.firebaseapp.com&quot;,
+      databaseURL: &quot;https://led-connection-a5653-default-rtdb.firebaseio.com/&quot;, // Your FIREBASE_HOST
+      projectId: &quot;led-connection-a5653&quot;,
+      storageBucket: &quot;led-connection-a5653.appspot.com&quot;,
+      messagingSenderId: &quot;1074193725137&quot;, // Your actual Messaging Sender ID
+      appId: &quot;1:1074193725137:web:5cca89fb6411ab650337f0&quot; // Your actual App ID
+    };
+
+    // Initialize Firebase
+    let firebaseApp;
+    let database;
+    let ledRef;
+    const statusDiv = document.getElementById('status');
+    const brightnessSlider = document.getElementById('brightnessSlider');
+    const brightnessValueSpan = document.getElementById('brightnessValue');
+
+    try {
+        firebaseApp = firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        ledRef = database.ref('led_control');
+        statusDiv.textContent = &quot;Status: Connected to Firebase&quot;;
+
+        // Update brightness display value
+        brightnessSlider.oninput = function() {
+            brightnessValueSpan.textContent = this.value;
+        };
+
+        // For initial load and to keep UI in sync if external changes occur
+        ledRef.on('value', (snapshot) =&gt; {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('colorPicker').value = data.color || '#FFFFFF';
+                document.getElementById('brightnessSlider').value = data.brightness || 150;
+                brightnessValueSpan.textContent = data.brightness || 150;
+                // You could also show the state visually if desired
+                console.log(&quot;Firebase data updated UI:&quot;, data);
+            }
+        });
+
+    } catch (error) {
+        statusDiv.textContent = `Status: Error connecting to Firebase - ${error.message}`;
+        console.error(&quot;Firebase initialization error:&quot;, error);
+    }
+
+    // Function to set LED state (ON/OFF)
+    function setLedState(state) {
+      ledRef.update({
+        state: state
+      }).then(() =&gt; {
+        console.log(`LED state set to ${state}`);
+        statusDiv.textContent = `Status: LED set to ${state}`;
+      }).catch(error =&gt; {
+        console.error(&quot;Error setting LED state:&quot;, error);
+        statusDiv.textContent = `Status: Error setting LED state - ${error.message}`;
+      });
+    }
+
+    // Function to update color and brightness
+    function updateLed() {
+      const color = document.getElementById('colorPicker').value;
+      const brightness = parseInt(document.getElementById('brightnessSlider').value);
+
+      if (isNaN(brightness)) {
+        alert(&quot;Please enter a valid brightness number.&quot;);
+        return;
+      }
+
+      ledRef.update({
+        color: color,
+        brightness: brightness,
+        state: &quot;ON&quot; // Always set to ON when updating color/brightness
+      }).then(() =&gt; {
+        console.log(`LED updated: Color ${color}, Brightness ${brightness}`);
+        statusDiv.textContent = `Status: LED color/brightness updated and set ON`;
+      }).catch(error =&gt; {
+        console.error(&quot;Error updating LED:&quot;, error);
+        statusDiv.textContent = `Status: Error updating LED - ${error.message}`;
+      });
+    }
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
