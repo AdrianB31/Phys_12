@@ -32,10 +32,27 @@ For this assignment, Leo, Emma, Nick, and I created a drawing robot that extrude
 Afterwards, our next challenge was having the stepper motor drive the syringe in way that caused a constant extrusion of the frosting. Similar to the previous challenge, our stepper motor would also vibrate and not cause any rotation. However, we discovered the issue lied within the code itself, and not from the hardware. Therefore, we recoded the function which led to a constant torque being applied to the syringe. 
 <br>
 <br>
-Once we compiled all of the code, we conducted a test-run to see how the drawing mechanism behaves when commanded to draw a circle or letter 'X' and 'Y'. As a result, although the drawing mechanism did indeed follow drawing coordinates, we saw the image produced was an oval rather than circle. In addition, the oval appeared to have rigid borders, which we determined was an issue caused by the circle ratio function in the code.  
+Once we compiled all of the code, we conducted a test-run to see how the drawing mechanism behaves when commanded to draw a circle or letter 'X' and 'Y'. As a result, although the drawing mechanism did indeed follow drawing coordinates, we saw the image produced was an oval rather than circle. In addition, the oval appeared to have rigid borders, which we determined was an issue caused by the circle ratio function in the code. Below are the results of the initial test run. 
+<div class="center-colum">
+      <img src="./test.jpeg" alt="LED" width="900"> 
 <br>
 <br>
 After determining the stepper motors and code functions, we tried incorporting the limit switches into the circuit. However, when trying to do so, either the limit switches or the code for the limit switches caused the previous x-and-y-axes code to malfunction. 
+<br>
+<br>
+The major breakthrough occured when trying to calibrate the drawing mechanism. Once we determined that the mechanism was trying to zero itself, we took the coordinates of the position and implemented it into the code. 
+<video controls>
+      <source src="1.mp4" type="video/mp4" size="50">
+           </video> 
+        <video controls>
+        <source src="2.mp4" type="video/mp4" size="100">
+               </video> 
+          <video controls>
+          <source src="3.mp4" type="video/mp4" size="100">
+               </video> 
+            <video controls>
+            <source src="4.mp4" type="video/mp4" size="100">
+             </video> 
 
 </div>
 </xmp>
