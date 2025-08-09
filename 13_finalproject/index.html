@@ -48,6 +48,173 @@ Below are the components combined to make up the incubator. Surprisingly, the te
       <img src="./f3.jpeg" alt="Circuit Diagram" width="500">
       <img src="./f4.jpeg" alt="Circuit Diagram" width="500">
       <img src="./f5.jpeg" alt="Circuit Diagram" width="500">
+<br>
+<br>
+Here is the code that I utilized for the incubator to function. 
+<pre><code class="language-arduino">
+#include Wire.h
+#include Adafruit_VL53L0X.h
+#include Adafruit_NeoPixel.h
+#include "max6675.h"
+#include Adafruit_GFX.h
+#include Adafruit_SSD1306.h
+
+// --- Configuration ---
+#define LED_PIN         25
+#define NUM_LEDS        10
+
+#define UPPER_THRESHOLD 90 // Distance in mm for the door to be considered "open"
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET -1
+
+// VL53L0X I2C pins
+#define VL53L0X_SDA_PIN 21 //Purple = VNC; Black = GND; Gray = SCL; White = SDA
+#define VL53L0X_SCL_PIN 22
+
+// MAX6675 SPI pins
+#define MAX6675_SO_PIN 17
+#define MAX6675_CS_PIN 18
+#define MAX6675_SCK_PIN 19
+
+// Heating pad control pins
+#define HEATING_PAD_1_PIN 34
+#define HEATING_PAD_2_PIN 35
+
+// DC Motor control pin
+#define MOTOR_PIN       32
+
+// --- Global Variables ---
+Adafruit_VL53L0X lox = Adafruit_VL53L0X();
+Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+MAX6675 thermocouple(MAX6675_SCK_PIN, MAX6675_CS_PIN, MAX6675_SO_PIN);
+
+// Variables for sensor data and state
+bool doorState = false; // false = closed, true = open
+int distance = 0;
+float temp = 0;
+
+// Millis variables for non-blocking timing
+unsigned long previousMillis = 0;
+const long updateInterval = 100;
+
+void setup() {
+  Serial.begin(115200);
+
+  // --- Initialize all peripherals ---
+  // VL53L0X sensor
+  Wire.begin(VL53L0X_SDA_PIN, VL53L0X_SCL_PIN);
+  if (!lox.begin()) {
+    Serial.println("Failed to boot VL53L0X");
+    while (1);
+  }
+
+  // OLED display
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3c)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+  display.clearDisplay();
+  display.setTextColor(WHITE);
+
+  // LED strip
+  strip.begin();
+  strip.show();
+
+  // Configure heating pad pins as outputs
+  pinMode(HEATING_PAD_1_PIN, OUTPUT);
+  pinMode(HEATING_PAD_2_PIN, OUTPUT);
+
+  // Configure motor pin as an output
+  pinMode(MOTOR_PIN, OUTPUT);
+
+  // Ensure heating pads and motor are OFF at startup
+  digitalWrite(HEATING_PAD_1_PIN, LOW);
+  digitalWrite(HEATING_PAD_2_PIN, LOW);
+  digitalWrite(MOTOR_PIN, LOW);
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= updateInterval) {
+    previousMillis = currentMillis;
+
+    // --- Read Sensors ---
+    VL53L0X_RangingMeasurementData_t measure;
+    lox.rangingTest(&measure, false);
+    
+    // Explicitly check for the "out of range" status.
+    // RangeStatus == 4 means the sensor could not get a valid reading.
+    if (measure.RangeStatus != 4) {
+      distance = measure.RangeMilliMeter;
+    } else {
+      // The sensor is out of range, set a specific distance value
+      // to handle this state.
+      distance = -1; 
+    }
+
+    temp = thermocouple.readCelsius();
+
+    // --- Update LED, OLED, and Actuator States ---
+    if (distance > UPPER_THRESHOLD || distance == -1) {
+      // Door is open
+      doorState = true;
+      strip.fill(strip.Color(255, 0, 0), 0, NUM_LEDS); // Red LEDs
+      strip.show();
+
+      // Turn heating pads OFF and motor OFF
+      digitalWrite(HEATING_PAD_1_PIN, LOW);
+      digitalWrite(HEATING_PAD_2_PIN, LOW);
+      digitalWrite(MOTOR_PIN, LOW);
+    } else {
+      // Door is closed
+      doorState = false;
+      strip.fill(strip.Color(0, 255, 0), 0, NUM_LEDS); // Green LEDs
+      strip.show();
+
+      // Turn heating pads ON and motor ON
+      digitalWrite(HEATING_PAD_1_PIN, HIGH);
+      digitalWrite(HEATING_PAD_2_PIN, HIGH);
+      digitalWrite(MOTOR_PIN, HIGH);
+    }
+
+    // --- Update OLED Display ---
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setCursor(0, 0);
+    display.println("Dr. Incubator");
+    display.println("-----------------");
+
+    display.print("Temp: ");
+    display.print(temp);
+    display.println(" C");
+
+    display.print("Door Status: ");
+    if (doorState) {
+      display.println("Open");
+    } else {
+      display.println("Closed");
+    }
+
+    if (doorState) {
+      display.setTextSize(1);
+      display.setCursor(5, 55);
+      display.println("Close Door!");
+      display.setCursor(5, 45);
+      display.println("Immediately");
+    } else {
+      display.setTextSize(2);
+      display.setCursor(30, 40);
+      display.println("OKAY");
+    }
+
+    display.display();
+  }
+}
+</code></pre> 
 </div>
 </xmp>
 </body>
