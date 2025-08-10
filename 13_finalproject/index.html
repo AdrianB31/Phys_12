@@ -24,9 +24,11 @@
 <p class="margin"></p>
 
 <h3>Final Project: A Portable Medical Incubator </h3>
+<h4>Why Create a Portable Incubator?</h4>
 The underlying motivation for creating a portbale incubator is to showcase the opportunities available for medical accessability. The incubator is essential for growing organisms in order to diagnose bacterial disease, with the intent to distribute antibiotics to the patient. Currently, the market for portable incubators show a price range between ~$1000 to ~$5000. Although this price range is viewed as affordable in advanced nations accustomed to high medical standards, poor nations—or even poor regions within an advanced economy—are likely not able to take advantage of the most current medical technologies due to the constant strain of balancing finanical priorities. Therefore, my final project showcased that utilziing the most simpliest and cheapest components can yield a functional incubator that enhances medical accessability. 
 <br>
 <br>
+<h4>Creation Process</h4>
 Even though the incubator consisted of a box, which was learned in week 1, the final project slowly began to develop during the microcontroller programming week. During this week, I learned I2C communication and how to intergrate a sensor into the OLED display. The following week, in the 3D design module, I designed a fan to disperse the oxgyen within the incubator. 
 <p class="margin">   </p>
     <div class="center-colum">
@@ -39,7 +41,17 @@ Even though the incubator consisted of a box, which was learned in week 1, the f
 Thereafter, I committed myself to dedicated the remaining weekly assignments to align with my final project. As such, the electronic inputs module provided an excellent opportunity to learn how to setup and conduct reading experiments with a thermistor. 
 <br>
 <br>
-Below are the components combined to make up the incubator. Surprisingly, the temperature reached a high of 38.5 C. However, during the presentation fair, the wooden wall warped outwards due to the constant heat.  
+<h4>Minimum Viable Product</h4>
+Below is the first draft of what I intially thought the incubator could look like. My thinking was to have a hinged door with an LED strip above to indicate whether the door was opened or closed. Furthermore, I showed a crude method of installing the thermistor by creating a hole during the 3D print to read the inside temperature. 
+<p class="margin">   </p>
+    <div class="center-colum">
+      <img src="./v1.jpeg" alt="Incubator" width="500">
+      <img src="./v2.jpeg" alt="Incubator" width="500">
+      <img src="./v3.jpeg" alt="Incubator" width="500">
+<br>
+<br>
+<h4>Final Product</h4>
+Below are the components combined to make up the incubator. Surprisingly, the heat plates allowed the temperature to reach a high of 38.5 C. However, during the presentation fair, the wooden wall warped outwards due to the constant heat.  
 <p class="margin">   </p>
     <div class="center-colum">
       <img src="./label.jpeg" alt="Circuit Diagram" width="500">
@@ -50,6 +62,7 @@ Below are the components combined to make up the incubator. Surprisingly, the te
       <img src="./f5.jpeg" alt="Circuit Diagram" width="500">
 <br>
 <br>
+<h4>Software</h4>
 Here is the code that I utilized for the incubator to function. The code enables the OLED display to show the interior temperature in real-time, the VL53l0x proximity sensor to show the current status of the incubator of whether the door is opened or closed, as well as the heating pads and fan to be on or off depending on if the door is opened or closed. 
 <pre><code class="language-arduino">
 #include Wire.h
@@ -215,6 +228,22 @@ void loop() {
   }
 }
 </code></pre> 
+<br>
+<br>
+<h4>CAD Models Used</h4>
+Below are the Fusion files that were used during the creation process. I also used the sliding box from  <a href="https://en.makercase.com/#/">Makercase</a> as the outer wooden shell for the final interation. 
+<br>
+<iframe src="https://myg338979.autodesk360.com/shares/public/SH30dd5QT870c25f12fcf3f1df25bb93b833?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0"></iframe>
+<iframe src="https://myg338979.autodesk360.com/shares/public/SH30dd5QT870c25f12fcb7aede2bb635fc74?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0"></iframe>
+<iframe src="https://myg338979.autodesk360.com/shares/public/SH30dd5QT870c25f12fcf06463cc949cfea1?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0"></iframe>
+<iframe src="https://myg338979.autodesk360.com/shares/public/SH30dd5QT870c25f12fcb986d86a72c9e72b?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0"></iframe>
+<iframe src="https://myg338979.autodesk360.com/shares/public/SH30dd5QT870c25f12fc27b33e6e377256b1?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0"></iframe>
+<br>
+<br>
+<h4>Hardware Used</h4>
+<br>
+<br>
+<h4>Refinements Moving Forward</h4>
 </div>
 </xmp>
 </body>
