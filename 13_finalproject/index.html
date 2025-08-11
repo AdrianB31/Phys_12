@@ -121,7 +121,7 @@ const long updateInterval = 100;
 void setup() {
   Serial.begin(115200);
 
-  // --- Initialize all peripherals ---
+  // --- Initialize all outputs ---
   // VL53L0X sensor
   Wire.begin(VL53L0X_SDA_PIN, VL53L0X_SCL_PIN);
   if (!lox.begin()) {
@@ -176,7 +176,7 @@ void loop() {
 
     temp = thermocouple.readCelsius();
 
-    // --- Update LED, OLED, and Actuator States ---
+    // --- Update States ---
     if (distance > UPPER_THRESHOLD || distance == -1) {
       // Door is open
       doorState = true;
